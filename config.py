@@ -1,0 +1,1 @@
+DATABASE_URL = "postgresql+asyncpg://postgres_1:password13@localhost/carpet_voting_db"
