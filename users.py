@@ -37,10 +37,13 @@ async def register_user(user: UserCreate, db: AsyncSession = Depends(get_db)):
 
 @router.post("/token/", response_model=Token)
 async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(), db: AsyncSession = Depends(get_db)):
+    print(f"Login attempt for: '{form_data.username}'")
     result = await db.execute(select(User).filter(User.email == form_data.username))
     db_user = result.scalars().first()
+    print(f"DB User search result: {db_user}")
     if not db_user or not verify_password(form_data.password, db_user.hashed_password):
         raise HTTPException(status_code=401, detail="Incorrect email or password")
+
 
     access_token_expires = timedelta(minutes=30)
     access_token = create_access_token(data={"sub": db_user.email}, expires_delta=access_token_expires)
