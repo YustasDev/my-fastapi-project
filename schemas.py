@@ -1,4 +1,5 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
+
 from typing import Optional
 
 class UserCreate(BaseModel):
@@ -11,9 +12,8 @@ class UserResponse(BaseModel):
     name: str
     email: str
 
-    class Config:
-        # orm_mode = True
-        from_attributes = True  # for Pydantic V2
+    model_config = ConfigDict(from_attributes=True)
+
 
 class Token(BaseModel):
     access_token: str
@@ -33,8 +33,9 @@ class PostResponse(BaseModel):
     content: str
     owner_id: int
 
-    class Config:
-        orm_mode = True  # позволяет Pydantic работать с SQLAlchemy моделями
+    model_config = ConfigDict(from_attributes=True)
+
+
 
 
 # Схема для создания нового комментария
@@ -50,6 +51,7 @@ class CommentResponse(BaseModel):
     post_id: int
     owner_id: int
 
-    class Config:
-        orm_mode = True  # позволяет Pydantic работать с SQLAlchemy моделями
+    model_config = ConfigDict(from_attributes=True)
+
+
 
